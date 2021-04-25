@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.color import Color
 options = Options()
-options.add_argument("--user-data-dir=C:\\Users\\just_\\OneDrive\\Desktop\\UserData")
+options.add_argument("--user-data-dir=[USER DATA PATH]")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
@@ -29,7 +29,7 @@ def bot():
     #wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("332")
+    cvv.send_keys("[CVV GOES HERE")
 
     #place order
     placeOrder = browser1.find_element_by_class_name('button__fast-track')
