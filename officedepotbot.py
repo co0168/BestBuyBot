@@ -62,13 +62,14 @@ def bot():
 inCart = False
 while not inCart:
 
+    i = 0
     itemNo = 'skuListFormID_INDEX_'
-    for i in range(0, 19, 1): # check all 19 items on the page
+    for i in range(0, 17):
         currentItem = itemNo + str(i)
-        winner = browser1.find_element_by_xpath(
-            f"//input[contains(@id, '{currentItem}')]")
+        print(currentItem)
         try:
-            winner.click()
+            browser1.find_element_by_xpath(
+                f"//input[contains(@id, '{currentItem}')]").click()
             inCart = True
             break
         except:
