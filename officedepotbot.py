@@ -62,10 +62,8 @@ inCart = False
 while not inCart:
 
     itemNo = 'skuListFormID_INDEX_'
-    for i in range(0, 2, 1):
+    for i in range(0, 19, 1): # check all 19 items on the page
         currentItem = itemNo + str(i)
-        #print(currentItem)
-        #print(f"//input[contains(@id, '{currentItem}')]")
         winner = browser1.find_element_by_xpath(
             f"//input[contains(@id, '{currentItem}')]")
         try:
