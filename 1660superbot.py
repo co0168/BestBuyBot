@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 #from scalper import bot
 options = Options()
 options.add_argument(
-    "--user-data-dir=C:\\Users\\Connor\\Desktop\\UserData")
+    "--user-data-dir=[USER DATA PATH HERE]")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
@@ -50,7 +50,7 @@ def bot():
     # wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("332")
+    cvv.send_keys("[CVV HERE]")
 
     # place order
     time.sleep(1)
