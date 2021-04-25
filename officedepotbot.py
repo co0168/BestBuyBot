@@ -46,8 +46,9 @@ def bot():
         placeOrder = browser1.find_element_by_css_selector("button[class='btn full_width checkout noValidDoubleClick']")
         print("Found place order button")
         time.sleep(1)
-        #placeOrder.click()
-        #print("ORDER PLACED :O")
+        # make sure you're ready to checkout....
+        placeOrder.click()
+        print("ORDER PLACED :O")
     except:
         print("Can't find place order button")
 
