@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 # from scalper import bot
 options = Options()
 options.add_argument(
-    "--user-data-dir=[YOUR DATA PATH]")
+    "--user-data-dir=[USE YOUR OWN DATA PATH]")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
@@ -27,33 +27,33 @@ def bot():
         cvv = browser1.find_element_by_xpath("//input[contains(@name, 'cvvForPreauth')]")
         cvv.clear()
         cvv.click()
-        cvv.send_keys("[CVV GOES HERE]")
+        cvv.send_keys("[CVV HERE]")
     except:
-        print("Can't find CVV box.")
+        print("Gay")
 
     time.sleep(1)
     try:
         submit = browser1.find_element_by_xpath("//div[contains(@id, 'paymentsOrderSummary')]")
         print("Found continue button")
-        time.sleep(1)
         submit.click()
     except:
         print("Can't find continue button")
     
 
-    time.sleep(1)
     try:
         placeOrder = browser1.find_element_by_css_selector("button[class='btn full_width checkout noValidDoubleClick']")
         print("Found place order button")
         time.sleep(1)
-        # make sure you're ready to checkout....
-        placeOrder.click()
-        print("ORDER PLACED :O")
+        #placeOrder.click()
+        #print("ORDER PLACED :O")
     except:
         print("Can't find place order button")
 
-# GPU Main Page - activate bot on this link
-# browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934&cbxRefine=1421023&cbxRefine=1486397/")
+# actual page
+browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934&cbxRefine=1421023&cbxRefine=1486397/")
+
+# one with an add to cart
+# browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934&cbxRefine=386429&cbxRefine=1421023/")
 
 
 # testers
@@ -66,17 +66,18 @@ while not inCart:
     itemNo = 'skuListFormID_INDEX_'
     for i in range(0, 17):
         currentItem = itemNo + str(i)
-        print(currentItem)
         try:
-            browser1.find_element_by_xpath(
-                f"//input[contains(@id, '{currentItem}')]").click()
-            inCart = True
-            break
+            clickOne = browser1.find_element_by_id(currentItem)
+            if not clickOne.get_attribute('disabled'):
+                clickOne.click()
+                inCart = True
+                break
+            else:
+                print(f"out of stock for item {currentItem}")
         except:
-            print("ouch")
+            print(f"cannot find element {currentItem}")
 
     if inCart: break
-    time.sleep(2)
     browser1.refresh()
 
 bot()
