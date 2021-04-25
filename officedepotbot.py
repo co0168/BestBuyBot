@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 # from scalper import bot
 options = Options()
 options.add_argument(
-    "--user-data-dir=C:\\Users\\Connor\\Desktop\\OfficeDepotData")
+    "--user-data-dir=[YOUR DATA PATH]")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
@@ -27,9 +27,9 @@ def bot():
         cvv = browser1.find_element_by_xpath("//input[contains(@name, 'cvvForPreauth')]")
         cvv.clear()
         cvv.click()
-        cvv.send_keys("332")
+        cvv.send_keys("[CVV GOES HERE]")
     except:
-        print("Gay")
+        print("Can't find CVV box.")
 
     time.sleep(1)
     try:
@@ -51,12 +51,12 @@ def bot():
     except:
         print("Can't find place order button")
 
-
+# GPU Main Page - activate bot on this link
 # browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934&cbxRefine=1421023&cbxRefine=1486397/")
 
 
 # testers
-browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934/")
+# browser1.get("https://www.officedepot.com/a/browse/graphic-cards/N=5+1461934/")
 
 inCart = False
 while not inCart:
