@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.color import Color
 options = Options()
-options.add_argument("--user-data-dir=[USER DATA PATH]")
+options.add_argument("--user-data-dir={USER DATA PATH]")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
@@ -29,12 +29,68 @@ def bot():
     #wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("[CVV GOES HERE")
+    cvv.send_keys("[YOUR CVV]")
 
     #place order
     placeOrder = browser1.find_element_by_class_name('button__fast-track')
-    placeOrder.click()
+    #placeOrder.click()
     print('ORDER PLACED :)')
+
+
+
+
+
+inCart = False
+skus = ['6436191','6429440','6432400','6432399','6436196','6432655','6432658','6436194'] # currently 3080 SKU's only
+
+
+def callGPUs():
+    for sku in skus:
+        try:
+            item = browser1.find_element_by_xpath(f"//button[contains(@data-sku-id, '{sku}')]")
+            print(f"Found sku: {sku} on page.")
+            if Color.from_string(item.value_of_css_property('background-color')).hex != '#c5cbd5':
+                item.click()
+                inCart = True
+                break
+        except:
+            print(f"Can't find item: {sku}")
+    print("Nothing found in stock")
+    time.sleep(3)
+    browser1.refresh()
+
+
+browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080")
+while not inCart:
+    callGPUs()
+
+
+
+try:
+    # see if we're in queue....
+    browser1.find_element_by_xpath(
+        "//*[@aria-describedby = 'add-to-cart-wait-overlay']")
+    yourTurn = False
+    while not yourTurn:
+        # check color of add to cart button, breaks out of exception when color changes
+        color = browser1.find_element_by_class_name(
+            'btn-primary').value_of_css_property('background-color')
+        colorCheck = Color.from_string(color).hex
+        print(colorCheck)
+        print("Still waiting")
+        time.sleep(1)
+        if colorCheck != '#c5cbd5':
+            print("Adding!")
+            browser1.find_element_by_class_name('btn-primary').click()
+            yourTurn = True
+            atcBttn = True
+            bot()
+except NoSuchElementException:
+    atcBttn = True
+    bot()
+
+
+#### LINKS ####
 
 
 #3080s
@@ -45,7 +101,7 @@ def bot():
 #browser1.get('https://www.bestbuy.com/site/evga-geforce-rtx-3080-xc3-black-gaming-10gb-gddr6-pci-express-4-0-graphics-card/6432399.p?skuId=6432399')
 
 #EVGA - GeForce RTX 3080 FTW3 GAMING - $859
-browser1.get('https://www.bestbuy.com/site/evga-geforce-rtx-3080-ftw3-gaming-10gb-gddr6x-pci-express-4-0-graphics-card/6436191.p?skuId=6436191')
+# browser1.get('https://www.bestbuy.com/site/evga-geforce-rtx-3080-ftw3-gaming-10gb-gddr6x-pci-express-4-0-graphics-card/6436191.p?skuId=6436191')
 
 #EVGA - GeForce RTX 3080 XC3 GAMING 10GB - $819
 #browser1.get('https://www.bestbuy.com/site/evga-geforce-rtx-3080-xc3-gaming-10gb-gddr6-pci-express-4-0-graphics-card/6436194.p?skuId=6436194')
@@ -60,43 +116,3 @@ browser1.get('https://www.bestbuy.com/site/evga-geforce-rtx-3080-ftw3-gaming-10g
 #tester
 #browser1.get('https://www.bestbuy.com/site/pny-geforce-gt1030-2gb-pci-e-3-0-graphics-card-black/5901353.p?skuId=5901353')
 #browser1.get('https://www.bestbuy.com/site/amd-ryzen-7-5800x-4th-gen-8-core-16-threads-unlocked-desktop-processor-without-cooler/6439000.p?skuId=6439000')
-
-atcBttn = False
-
-while not atcBttn:
-
-    try:
-
-        addToCart = browser1.find_element_by_class_name("btn-disabled")
-        print("Button not ready")
-        time.sleep(1)
-        browser1.refresh()
-
-    except:
-
-        print("Button ready!")
-        addToCart = browser1.find_element_by_class_name('btn-primary').click()
-        time.sleep(1)
-        try:
-            # see if we're in queue....
-            browser1.find_element_by_xpath("//*[@aria-describedby = 'add-to-cart-wait-overlay']")
-            yourTurn = False
-            while not yourTurn:     
-                # check color of add to cart button, breaks out of exception when color changes
-                color = browser1.find_element_by_class_name('btn-primary').value_of_css_property('background-color')
-                colorCheck = Color.from_string(color).hex
-                print(colorCheck)
-                print("Still waiting")
-                time.sleep(1)
-                if colorCheck != '#c5cbd5':
-                    print("Adding!")
-                    browser1.find_element_by_class_name('btn-primary').click()
-                    yourTurn = True
-                    atcBttn = True
-                    bot()
-        except NoSuchElementException:
-            atcBttn = True
-            bot()
-
-
-
