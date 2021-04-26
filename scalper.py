@@ -50,7 +50,9 @@ def callGPUs():
     time.sleep(2)
     inCart = False
     while not inCart:
-        for sku in skus:
+        error = False
+        for sku in skus:  
+            color = '#c5cbd5'        
             try:
                 item = browser1.find_element_by_xpath(f"//button[contains(@data-sku-id, '{sku}')]")
             except:
@@ -59,17 +61,21 @@ def callGPUs():
                 print(f"Found sku: {sku} on page.")
             else:
                 print(f"Can't find item {sku}")
-            color = Color.from_string(item.value_of_css_property('background-color')).hex
-            print(f"Color: {color}")
+            #time.sleep(0.06)
+            try:
+                color = Color.from_string(item.value_of_css_property('background-color')).hex
+            except:
+                error = True
+                print(f"Error with finding color for item {sku}...continuing...")
             if color != '#c5cbd5':
                 print()
                 item.click()
                 inCart = True
                 break
             if inCart: break        # we want it to insta-break out of the loop
-        if not inCart: 
+        if not inCart and not error: 
             print("Nothing found in stock")
-            time.sleep(3)
+            time.sleep(2)
             browser1.refresh()
 
 
