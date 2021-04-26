@@ -39,55 +39,73 @@ def bot():
 
 
 
+#3080s
+skus = ['6436191','6429440','6432400','6432399','6436196','6432655','6432658','6436194']
 
-inCart = False
-skus = ['6436191','6429440','6432400','6432399','6436196','6432655','6432658','6436194'] # currently 3080 SKU's only
+#test 5000 series
+#skus = ['6438941','6438942','6432400','6439000','6438943']  #6438943 6439000  ,'6439000','6438943'
 
 
 def callGPUs():
-    for sku in skus:
-        try:
-            item = browser1.find_element_by_xpath(f"//button[contains(@data-sku-id, '{sku}')]")
-            print(f"Found sku: {sku} on page.")
-            if Color.from_string(item.value_of_css_property('background-color')).hex != '#c5cbd5':
-                item.click()
-                inCart = True
-                break
-        except:
-            print(f"Can't find item: {sku}")
-    print("Nothing found in stock")
-    time.sleep(3)
-    browser1.refresh()
+    time.sleep(2)
+    inCart = False
+    while not inCart:
+        for sku in skus:
+            try:
+                item = browser1.find_element_by_xpath(f"//a[contains(@data-sku-id, '{sku}')]")   #button[contains(@data-sku-id, '{sku}')]
+                print(f"Found sku: {sku} on page.")
+                if print(Color.from_string(item.value_of_css_property('background-color')).hex) != '#c5cbd5':
+                    item.click()
+                    inCart = True
+                    break
+                if inCart: break        # we want it to insta-break out of the loop
+            except:
+                print(f"Can't find item: {sku}")
+        if not inCart: 
+            print("Nothing found in stock")
+            time.sleep(3)
+            browser1.refresh()
 
+
+            
 
 browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080")
-while not inCart:
-    callGPUs()
 
+#browser1.get('https://www.bestbuy.com/site/promo/amd-ryzen-5000')
 
+callGPUs()
 
-try:
-    # see if we're in queue....
-    browser1.find_element_by_xpath(
-        "//*[@aria-describedby = 'add-to-cart-wait-overlay']")
-    yourTurn = False
-    while not yourTurn:
-        # check color of add to cart button, breaks out of exception when color changes
-        color = browser1.find_element_by_class_name(
-            'btn-primary').value_of_css_property('background-color')
-        colorCheck = Color.from_string(color).hex
-        print(colorCheck)
-        print("Still waiting")
+atcBttn = False
+
+while not atcBttn:
+    try:
+        browser1.find_element_by_class_name('btn-primary').click()
         time.sleep(1)
-        if colorCheck != '#c5cbd5':
-            print("Adding!")
-            browser1.find_element_by_class_name('btn-primary').click()
-            yourTurn = True
+        try:
+            # see if we're in queue....
+            browser1.find_element_by_xpath(
+                "//*[@aria-describedby = 'add-to-cart-wait-overlay']")
+            yourTurn = False
+            while not yourTurn:
+                # check color of add to cart button, breaks out of exception when color changes
+                color = browser1.find_element_by_class_name(
+                    'btn-primary').value_of_css_property('background-color')
+                colorCheck = Color.from_string(color).hex
+                print(colorCheck)
+                print("Still waiting")
+                time.sleep(1)
+                if colorCheck != '#c5cbd5':
+                    print("Adding!")
+                    browser1.find_element_by_class_name('btn-primary').click()
+                    yourTurn = True
+                    atcBttn = True
+                    bot()
+        except NoSuchElementException:
             atcBttn = True
             bot()
-except NoSuchElementException:
-    atcBttn = True
-    bot()
+    except:
+        print("Button not ready")
+        browser1.refresh()
 
 
 #### LINKS ####
