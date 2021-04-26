@@ -7,14 +7,13 @@ from selenium.webdriver.support.ui import Select
 # from scalper import bot
 options = Options()
 options.add_argument(
-    "--user-data-dir=[USE YOUR OWN DATA PATH]")
+    "--user-data-dir=C:\\Users\\Connor\\Desktop\\OfficeDepotData")
 options.page_load_strategy = 'normal'
 browser1 = webdriver.Chrome(options=options)
 
 
 
 def bot():
-    time.sleep(1)
     print("Added to cart")
     print("Going to cart")
     browser1.get('https://www.officedepot.com/cart/shoppingCart.do')
@@ -27,7 +26,7 @@ def bot():
         cvv = browser1.find_element_by_xpath("//input[contains(@name, 'cvvForPreauth')]")
         cvv.clear()
         cvv.click()
-        cvv.send_keys("[CVV HERE]")
+        cvv.send_keys("332")
     except:
         print("Gay")
 
@@ -44,8 +43,8 @@ def bot():
         placeOrder = browser1.find_element_by_css_selector("button[class='btn full_width checkout noValidDoubleClick']")
         print("Found place order button")
         time.sleep(1)
-        #placeOrder.click()
-        #print("ORDER PLACED :O")
+        placeOrder.click()
+        print("ORDER PLACED :O")
     except:
         print("Can't find place order button")
 
@@ -78,6 +77,7 @@ while not inCart:
             print(f"cannot find element {currentItem}")
 
     if inCart: break
+    time.sleep(2)
     browser1.refresh()
 
 bot()
