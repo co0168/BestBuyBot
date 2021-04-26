@@ -59,9 +59,39 @@ def bot():
     print('ORDER PLACED :)')
 
 
+
+skus = ['6407309','6389333','6409171','6405063']
+def callGPUs():
+    time.sleep(2)
+    inCart = False
+    while not inCart:
+        for sku in skus:           
+            try:
+                item = browser1.find_element_by_xpath(f"//button[contains(@data-sku-id, '{sku}')]")
+            except:
+                item = browser1.find_element_by_xpath(f"//a[contains(@data-sku-id, '{sku}')]")   #button[contains(@data-sku-id, '{sku}')]
+            if item is not None:
+                print(f"Found sku: {sku} on page.")
+            else:
+                print(f"Can't find item {sku}")
+            color = Color.from_string(item.value_of_css_property('background-color')).hex
+            if color != '#c5cbd5':
+                print()
+                item.click()
+                inCart = True
+                break
+            if inCart: break        # we want it to insta-break out of the loop
+        if not inCart: 
+            print("Nothing found in stock")
+            time.sleep(3)
+            browser1.refresh()
+    browser1.refresh()
+
+
+
+
 browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GTX%201660%20SUPER")
-
-
+callGPUs()
 # testers
 # browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=soldout_facet%3DAvailability~Exclude%20Out%20of%20Stock%20Items")
 # browser1.get("https://www.bestbuy.com/site/promo/amd-ryzen-5000")
