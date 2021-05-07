@@ -40,7 +40,6 @@ def bot():
             quantity.select_by_value("2")
     except:
         print('oof2')
-    
 
     # click checkout button
     time.sleep(1)
@@ -50,14 +49,13 @@ def bot():
     # wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("[CVV HERE]")
+    cvv.send_keys("332")
 
     # place order
-    time.sleep(1)
+    time.sleep(0.5)
     placeOrder = browser1.find_element_by_class_name('button__fast-track')
     placeOrder.click()
     print('ORDER PLACED :)')
-
 
 
 skus = ['6407309','6389333','6409171','6405063']
@@ -98,9 +96,14 @@ def callGPUs():
 
 browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GTX%201660%20SUPER")
 callGPUs()
+
 # testers
 # browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=soldout_facet%3DAvailability~Exclude%20Out%20of%20Stock%20Items")
 # browser1.get("https://www.bestbuy.com/site/promo/amd-ryzen-5000")
+
+
+
+
 
 # invokes purchase bot only if we get one added to our cart
 
