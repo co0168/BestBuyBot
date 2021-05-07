@@ -17,9 +17,13 @@ def bot():
 
     #checks if we need to click 'ship to'
     time.sleep(1)
-    shipHome = browser1.find_element_by_xpath("//*[contains(@id, 'fulfillment-shipping')]") # ship to home ID: id="fulfillment-shipping-4pmjcw2zz24ff-4odjuv524m635"
-    if shipHome is not None: 
-        shipHome.click()
+    try:
+        shipHome = browser1.find_element_by_xpath(
+            "//*[contains(@id, 'fulfillment-shipping')]")
+        if shipHome is not None:
+            shipHome.click()
+    except:
+        print('oof1')
 
     #click checkout button
     time.sleep(1)
@@ -29,21 +33,20 @@ def bot():
     #wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("[YOUR CVV]")
+    cvv.send_keys("[your cvv]")
 
     #place order
+    time.sleep(0.5)
     placeOrder = browser1.find_element_by_class_name('button__fast-track')
-    #placeOrder.click()
+    placeOrder.click()
     print('ORDER PLACED :)')
 
 
 
 
-#3080s
-skus = ['6436191','6429440','6432400','6432399','6436196','6432655','6432658','6436194']
 
-#test 5000 series
-#skus = ['6438941','6438942','6432400','6439000','6438943']  #6438943 6439000  ,'6439000','6438943'
+
+skus = ['6436191','6432400','6432399','6436196','6432655','6432658','6436194']
 
 
 def callGPUs():
@@ -79,15 +82,15 @@ def callGPUs():
             browser1.refresh()
 
 
-            
+#browser1.get('https://www.bestbuy.com/site/promo/amd-ryzen-5000')
 
 browser1.get("https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080")
-
-#browser1.get('https://www.bestbuy.com/site/promo/amd-ryzen-5000')
 
 callGPUs()
 
 atcBttn = False
+
+
 
 while not atcBttn:
     try:
@@ -145,4 +148,5 @@ while not atcBttn:
 
 #tester
 #browser1.get('https://www.bestbuy.com/site/pny-geforce-gt1030-2gb-pci-e-3-0-graphics-card-black/5901353.p?skuId=5901353')
-#browser1.get('https://www.bestbuy.com/site/amd-ryzen-7-5800x-4th-gen-8-core-16-threads-unlocked-desktop-processor-without-cooler/6439000.p?skuId=6439000')
+#browser1.get('https://www.bestbuy.com/site/amd-ryzen-7-5800x-4th-gen-8-core-16-threads-unlocked-desktop-processor-without-cooler/6439000.p?skuId=6439000') https://www.bestbuy.com/site/promo/amd-ryzen-5000
+#browser1.get('https://www.bestbuy.com/site/promo/amd-ryzen-5000'
