@@ -49,7 +49,7 @@ def bot():
     # wait for cvv box to appear
     time.sleep(2)
     cvv = browser1.find_element_by_id("credit-card-cvv")
-    cvv.send_keys("332")
+    cvv.send_keys("[your cvv here]")
 
     # place order
     time.sleep(0.5)
